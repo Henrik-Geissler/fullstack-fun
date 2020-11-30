@@ -1,0 +1,75 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "project": "./server/tsconfig.json"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "plugins": [
+    "react-hooks",
+    "type-graphql",
+    "notice",
+    "no-loops",
+    "promise",
+    "sort-keys-fix",
+    "this",
+    "toplevel",
+    "security",
+    "optimize-regex",
+    "filenames",
+    "simple-import-sort"
+  ],
+  "extends": [
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "airbnb-typescript",
+    "plugin:type-graphql/recommended",
+    "plugin:promise/recommended",
+    "plugin:security/recommended",
+
+    "canonical",
+    "canonical/jest",
+    "canonical/node",
+    "canonical/react",
+    "canonical/typescript",
+    "prettier/@typescript-eslint",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "notice/notice": [
+      "error",
+      {
+        "mustMatch": "Copyright \\(c\\) [0-9]{0,4}, Henrik Geißler",
+        "templateFile": "secrets/copyright.ts"
+      }
+    ],
+    "filenames/match-regex": ["error", "^[A-Z]{1}[a-zA-Z]+$"],
+    "filenames/match-exported": 2,
+    "filenames/no-index": 0,
+
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error",
+    "sort-imports": "off",
+    "import/first": "error",
+    "import/newline-after-import": "error",
+    "import/no-duplicates": "error",
+
+    "optimize-regex/optimize-regex": "error",
+    "no-loops/no-loops": "warn",
+    "this/no-this": "error",
+    "toplevel/no-toplevel-var": "error",
+    "toplevel/no-toplevel-let": "error",
+    "toplevel/no-toplevel-side-effect": "error",
+    "sort-keys-fix/sort-keys-fix": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}

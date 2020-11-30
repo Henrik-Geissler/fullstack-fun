@@ -1,0 +1,6 @@
+#BUILDS
+build/
+dist/
+
+#MODULES
+node_modules
