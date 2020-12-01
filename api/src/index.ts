@@ -65,8 +65,8 @@ const main = async () => {
   )
 
   const apolloServer = new ApolloServer({
-    introspection: true, //TODO: rm intro & playground in prod
-    playground: true,
+    //introspection: true, //TODO: rm intro & playground in prod
+    //playground: true,
     schema: await buildSchema({
       resolvers: [HelloResolver, PostResolver, UserResolver],
       validate: false,
