@@ -1,4 +1,4 @@
-FROM node:15
+FROM node:14
 
 # Create app directory
 WORKDIR /usr/src/app
@@ -20,5 +20,5 @@ RUN yarn build
 ENV NODE_ENV production
 
 EXPOSE 8080
-CMD [ "node", "dist/index.js" ]
+CMD node dist/index.js && typeorm migration:run && echo HELLO
 USER node

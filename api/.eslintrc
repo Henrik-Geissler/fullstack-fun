@@ -6,7 +6,7 @@
     "ecmaFeatures": {
       "jsx": true
     },
-    "project": "./server/tsconfig.json"
+    "project": "./api/tsconfig.json"
   },
   "settings": {
     "react": {
