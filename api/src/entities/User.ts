@@ -1,45 +1,49 @@
-import { ObjectType, Field } from "type-graphql";
+/**
+ * Copyright (c) 2020, Henrik Geißler
+ */
+import { Field, Int, ObjectType } from 'type-graphql'
 import {
-  Entity,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
-  Column,
   BaseEntity,
+  Column,
+  CreateDateColumn,
+  Entity,
   OneToMany,
-} from "typeorm";
-import { Post } from "./Post";
-import { Updoot } from "./Updoot";
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm'
+
+import { Post } from './Post'
+import { Updoot } from './Updoot'
 
 @ObjectType()
 @Entity()
 export class User extends BaseEntity {
-  @Field()
+  @Field(() => Int)
   @PrimaryGeneratedColumn()
-  id!: number;
+  id!: number
 
   @Field()
   @Column({ unique: true })
-  username!: string;
+  username!: string
 
   @Field()
   @Column({ unique: true })
-  email!: string;
+  email!: string
 
   @Column()
-  password!: string;
+  password!: string
 
-  @OneToMany(() => Post, (post) => post.creator)
-  posts: Post[];
+  @OneToMany(() => Post, post => post.creator)
+  posts: Post[]
 
-  @OneToMany(() => Updoot, (updoot) => updoot.user)
-  updoots: Updoot[];
+  @OneToMany(() => Updoot, updoot => updoot.user)
+  updoots: Updoot[]
 
   @Field(() => String)
   @CreateDateColumn()
-  createdAt: Date;
+  createdAt: Date
 
   @Field(() => String)
   @UpdateDateColumn()
-  updatedAt: Date;
+  updatedAt: Date
 }

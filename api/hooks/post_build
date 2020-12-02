@@ -3,4 +3,4 @@
 VERSION=latest
 IMAGE="henrikgeissler/fullstackfun:$VERSION"
 
-printenv SSH_PSW | ssh root@104.248.251.75 "docker pull $IMAGE && docker tag $IMAGE dokku/api:$VERSION && dokku tags:deploy api $VERSION"
+#printenv SSH_PW | ssh root@104.248.251.75 "docker pull $IMAGE && docker tag $IMAGE dokku/api:$VERSION && dokku tags:deploy api $VERSION"

@@ -4,6 +4,7 @@ echo What should the version be?
 read VERSION
 
 IMAGE="henrikgeissler/fullstackfun:$VERSION"
+echo $IMAGE
 
 docker login
 docker build -t $IMAGE .

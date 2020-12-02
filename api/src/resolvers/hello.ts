@@ -1,4 +1,7 @@
-import { Resolver, Query } from 'type-graphql'
+/**
+ * Copyright (c) 2020, Henrik Geißler
+ */
+import { Query, Resolver } from 'type-graphql'
 
 @Resolver()
 export class HelloResolver {

@@ -36,7 +36,7 @@
     "plugin:security/recommended",
 
     "canonical",
-    "canonical/jest",
+    //"canonical/jest",
     "canonical/node",
     "canonical/react",
     "canonical/typescript",
@@ -51,7 +51,7 @@
         "templateFile": "secrets/copyright.ts"
       }
     ],
-    "filenames/match-regex": ["error", "^[A-Z]{1}[a-zA-Z]+$"],
+    "filenames/match-regex": ["error", "^[a-z]{1}[a-zA-Z.]+$"],
     "filenames/match-exported": 2,
     "filenames/no-index": 0,
 
@@ -70,6 +70,63 @@
     "toplevel/no-toplevel-side-effect": "error",
     "sort-keys-fix/sort-keys-fix": "error",
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
-  }
+    "react-hooks/exhaustive-deps": "warn",
+
+    //stylistic overwrite canonical
+    "babel/object-curly-spacing": ["error", "always"],
+    //"import/order": ["error", { "newlines-between": "always" }],
+    "import/order": "off",
+
+    //functional overwrite canonical
+    "node/no-missing-import": [
+      "error",
+      {
+        "tryExtensions": [".ts", ".tsx", ".js", ".json", ".node"]
+      }
+    ],
+    "id-length": [
+      "error",
+      {
+        "min": 4,
+        "max": 24,
+        "exceptions": ["i", "up", "app", "Int", "key", "req", "res", "url"]
+      }
+    ],
+    "@typescript-eslint/explicit-module-boundary-types": "error",
+    "import/no-unassigned-import": [
+      "error",
+      { "allow": ["reflect-metadata", "dotenv-safe/config"] }
+    ],
+
+    //security overwrite canonical
+    "security/detect-object-injection": "error"
+  },
+  "overrides": [
+    {
+      "files": ["*/entities/*.ts"],
+      "rules": {
+        // Entities are classes named in Pascal
+        "filenames/match-regex": ["error", "^[A-Z]{1}[a-zA-Z]+$"],
+        "fp/no-class": "off",
+        "import/no-cycle": "warn"
+      }
+    },
+    {
+      "files": ["*/migrations/*.ts"],
+      "rules": {
+        // Migrations are classes prefixed with Timestamps
+        "filenames/match-regex": ["error", "^[0-9]+[-]{1}[A-Z]{1}[a-zA-Z]+$"],
+        "fp/no-class": "off",
+        "class-methods-use-this": "off"
+      }
+    },
+    {
+      "files": ["*/resolvers/*.ts"],
+      "rules": {
+        // Resolvers are classes named either Pascal or camel
+        "filenames/match-regex": ["error", "^[a-zA-Z]+$"],
+        "fp/no-class": "off"
+      }
+    }
+  ]
 }
