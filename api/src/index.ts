@@ -14,15 +14,23 @@ import path from 'path'
 import { buildSchema } from 'type-graphql'
 import { createConnection } from 'typeorm'
 
-import { COOKIE_NAME, PRODUCTION } from './constants'
+import {
+  COOKIE_NAME,
+  CORS_ORIGIN,
+  DATABASE_URL,
+  PORT,
+  PRODUCTION,
+  REDIS_URL,
+  SESSION_SECRET,
+} from './config'
 import { Post } from './entities/Post'
 import { Updoot } from './entities/Updoot'
 import { User } from './entities/User'
-import { HelloResolver } from './resolvers/hello'
+import HelloResolver from './resolvers/hello'
 import { PostResolver } from './resolvers/post'
 import { UserResolver } from './resolvers/user'
-import { createUpdootLoader } from './utils/createUpdootLoader'
-import { createUserLoader } from './utils/createUserLoader'
+import createUpdootLoader from './utils/createUpdootLoader'
+import createUserLoader from './utils/createUserLoader'
 
 const main = async () => {
   // const conn =
@@ -32,49 +40,38 @@ const main = async () => {
     migrations: [path.join(__dirname, './migrations/*')],
     synchronize: true,
     type: 'postgres',
-    url: process.env.DATABASE_URL,
+    url: DATABASE_URL,
   })
   // await conn.runMigrations();
-
-  // await Post.delete({});
-
   const app = express()
-
   const RedisStore = connectRedis(session)
-  const redis = new Redis(process.env.REDIS_URL)
+  const redis = new Redis(REDIS_URL)
   app.set('trust proxy', 1)
   app.use(
     cors({
       credentials: true,
-      origin: process.env.CORS_ORIGIN,
+      origin: CORS_ORIGIN,
     })
   )
   app.use(
     session({
       cookie: {
-        // cookie only works in https
         domain: PRODUCTION ? '.fullstack.fun' : undefined,
-
-        // 10 years
         httpOnly: true,
-
         maxAge: 1_000 * 60 * 60 * 24 * 365 * 10,
         sameSite: 'lax',
-        // csrf
         secure: PRODUCTION,
       },
       name: COOKIE_NAME,
       resave: false,
       saveUninitialized: false,
-      secret:
-        process.env.SESSION_SECRET ?? 'no environmental SESSION_SECRET found',
+      secret: SESSION_SECRET,
       store: new RedisStore({
         client: redis,
         disableTouch: true,
       }),
     })
   )
-
   const apolloServer = new ApolloServer({
     context: ({ req, res }) => ({
       redis,
@@ -91,17 +88,14 @@ const main = async () => {
       validate: false,
     }),
   })
-
   apolloServer.applyMiddleware({
     app,
     cors: false,
   })
-
-  app.listen(Number.parseInt(process.env.PORT ?? '4000', 10), () => {
-    console.log('server started on localhost:4000')
+  app.listen(PORT, () => {
+    console.log(`server started on localhost:${PORT}`)
   })
 }
-// eslint-disable-next-line toplevel/no-toplevel-side-effect
 main().catch(error => {
   console.error(error)
 })

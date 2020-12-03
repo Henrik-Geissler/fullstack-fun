@@ -16,12 +16,11 @@ import {
 import { getConnection } from 'typeorm'
 import { v4 } from 'uuid'
 
-import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from '../constants'
+import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from '../config'
 import { User } from '../entities/User'
 import { MyContext } from '../types'
 import { sendEmail } from '../utils/sendEmail'
 import { validateRegister } from '../utils/validateRegister'
-
 import { UsernamePasswordInput } from './UsernamePasswordInput'
 
 @ObjectType()
@@ -32,7 +31,6 @@ class FieldError {
   @Field()
   message: string
 }
-
 @ObjectType()
 class UserResponse {
   @Field(() => [FieldError], { nullable: true })
@@ -71,7 +69,6 @@ export class UserResolver {
         ],
       }
     }
-
     const key = FORGET_PASSWORD_PREFIX + token
     const userId = await redis.get(key)
     if (!userId) {
@@ -84,10 +81,8 @@ export class UserResolver {
         ],
       }
     }
-
     const userIdNumber = Number.parseInt(userId)
     const user = await User.findOne(userIdNumber)
-
     if (!user) {
       return {
         errors: [
@@ -98,16 +93,13 @@ export class UserResolver {
         ],
       }
     }
-
     await User.update(
       { id: userIdNumber },
       {
         password: await argon2.hash(newPassword),
       }
     )
-
     await redis.del(key)
-
     // log in user after change password
     req.session.userId = user.id
 
@@ -124,16 +116,13 @@ export class UserResolver {
       // the email is not in the db
       return true
     }
-
     const token = v4()
-
     await redis.set(
       FORGET_PASSWORD_PREFIX + token,
       user.id,
       'ex',
       1_000 * 60 * 60 * 24 * 3
     ) // 3 days
-
     await sendEmail(
       email,
       `<a href="http://localhost:3000/change-password/${token}">reset password</a>`
@@ -161,7 +150,6 @@ export class UserResolver {
     if (errors) {
       return { errors }
     }
-
     const hashedPassword = await argon2.hash(options.password)
     let user
     try {
@@ -192,7 +180,6 @@ export class UserResolver {
         }
       }
     }
-
     // store user id session
     // this will set a cookie on the user
     // keep them logged in
@@ -233,7 +220,6 @@ export class UserResolver {
         ],
       }
     }
-
     req.session.userId = user.id
 
     return {
@@ -252,7 +238,6 @@ export class UserResolver {
 
           return
         }
-
         resolve(true)
       })
     )

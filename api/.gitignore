@@ -14,5 +14,5 @@ secrets
 .env
 .env.production
 
-#MISc
+#MISC
 .DS_Store

@@ -4,9 +4,11 @@
 import { Query, Resolver } from 'type-graphql'
 
 @Resolver()
-export class HelloResolver {
+class HelloResolver {
   @Query(() => String)
   hello() {
     return 'hello whaat'
   }
 }
+
+export default HelloResolver

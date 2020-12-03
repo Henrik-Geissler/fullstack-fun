@@ -20,7 +20,7 @@ import { getConnection } from 'typeorm'
 import { Post } from '../entities/Post'
 import { Updoot } from '../entities/Updoot'
 import { User } from '../entities/User'
-import { isAuth } from '../middleware/isAuth'
+import isAuth from '../middleware/isAuth'
 import { MyContext } from '../types'
 
 @InputType()
@@ -31,7 +31,6 @@ class PostInput {
   @Field()
   text: string
 }
-
 @ObjectType()
 class PaginatedPosts {
   @Field(() => [Post])
@@ -56,12 +55,11 @@ export class PostResolver {
   @FieldResolver(() => Int, { nullable: true })
   async voteStatus(
     @Root() post: Post,
-    @Ctx() { updootLoader, req }: MyContext
+    @Ctx() { req, updootLoader }: MyContext
   ) {
     if (!req.session.userId) {
       return null
     }
-
     const updoot = await updootLoader.load({
       postId: post.id,
       userId: req.session.userId,
@@ -80,9 +78,7 @@ export class PostResolver {
     const isUpdoot = value !== -1
     const realValue = isUpdoot ? 1 : -1
     const { userId } = req.session
-
     const updoot = await Updoot.findOne({ where: { postId, userId } })
-
     // the user has voted on the post before
     // and they are changing their vote
     if (updoot && updoot.value !== realValue) {
@@ -95,7 +91,6 @@ export class PostResolver {
         `,
           [realValue, postId, userId]
         )
-
         await tm.query(
           `
           update post
@@ -115,7 +110,6 @@ export class PostResolver {
         `,
           [userId, postId, realValue]
         )
-
         await tm.query(
           `
     update post
@@ -138,13 +132,10 @@ export class PostResolver {
     // 20 -> 21
     const realLimit = Math.min(50, limit)
     const reaLimitPlusOne = realLimit + 1
-
     const replacements: any[] = [reaLimitPlusOne]
-
     if (cursor) {
       replacements.push(new Date(Number.parseInt(cursor)))
     }
-
     const posts = await getConnection().query(
       `
     select p.*

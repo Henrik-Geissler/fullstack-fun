@@ -1,10 +1,16 @@
-import { InputType, Field } from "type-graphql";
+/**
+ * Copyright (c) 2020, Henrik Geißler
+ */
+import { Field, InputType } from 'type-graphql'
+
 @InputType()
 export class UsernamePasswordInput {
   @Field()
-  email: string;
+  email: string
+
   @Field()
-  username: string;
+  username: string
+
   @Field()
-  password: string;
+  password: string
 }

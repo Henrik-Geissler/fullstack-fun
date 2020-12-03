@@ -4,10 +4,10 @@
 /* eslint-disable unicorn/prevent-abbreviations */
 declare namespace NodeJS {
   export interface ProcessEnvironment {
-    DATABASE_URL: string
-    REDIS_URL: string
-    PORT: string
-    SESSION_SECRET: string
     CORS_ORIGIN: string
+    DATABASE_URL: string
+    PORT: string
+    REDIS_URL: string
+    SESSION_SECRET: string
   }
 }

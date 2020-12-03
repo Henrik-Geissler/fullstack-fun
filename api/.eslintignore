@@ -1,3 +1,6 @@
+!.*.json
+!.eslintrc
+
 #BUILDS
 build/
 dist/

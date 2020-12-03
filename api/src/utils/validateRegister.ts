@@ -3,7 +3,7 @@
  */
 import { UsernamePasswordInput } from '../resolvers/UsernamePasswordInput'
 
-export const validateRegister = (
+const validateRegister = (
   options: UsernamePasswordInput
 ): null | Array<Record<string, string>> => {
   if (!options.email.includes('@')) {
@@ -14,7 +14,6 @@ export const validateRegister = (
       },
     ]
   }
-
   if (options.username.length <= 2) {
     return [
       {
@@ -23,7 +22,6 @@ export const validateRegister = (
       },
     ]
   }
-
   if (options.username.includes('@')) {
     return [
       {
@@ -32,7 +30,6 @@ export const validateRegister = (
       },
     ]
   }
-
   if (options.password.length <= 2) {
     return [
       {
@@ -44,3 +41,5 @@ export const validateRegister = (
 
   return null
 }
+
+export default validateRegister
