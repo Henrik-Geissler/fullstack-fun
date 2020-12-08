@@ -1,4 +1,4 @@
-import { Button, Text, Box } from '@chakra-ui/react'
+import { Button, Text, Box, IconButton } from '@chakra-ui/react'
 import React from 'react'
 import { FaTwitterSquare, FaTumblrSquare, FaQuoteLeft } from 'react-icons/fa'
 import { MdRefresh } from 'react-icons/md'
@@ -24,18 +24,27 @@ const RandomQuoteMachineV: React.FC<RandomQuoteMachineVProps> = ({
         <Box>
           <Text fontSize='4xl'>
             <FaQuoteLeft />
+            {quote}
           </Text>
-          <Text fontSize='4xl'>{quote}</Text>
           <Text fontSize='4xl'>- {author}</Text>
         </Box>
         <Box>
-          <Button colorScheme='twitter' leftIcon={<FaTwitterSquare />}>
-            Twitter
-          </Button>
-          <Button colorScheme='tumblr' leftIcon={<FaTumblrSquare />}>
-            Tumblr
-          </Button>
-          <Button leftIcon={<MdRefresh />} onClick={refreshQuote()}>
+          <IconButton
+            aria-label='Share on Twitter'
+            colorScheme='twitter'
+            icon={<FaTwitterSquare />}
+          />
+          <IconButton
+            aria-label='Share on Tumblr'
+            colorScheme='tumblr'
+            icon={<FaTumblrSquare />}
+          />
+          <Button
+            leftIcon={<MdRefresh />}
+            onClick={() => {
+              refreshQuote()
+            }}
+          >
             New quote
           </Button>
         </Box>
