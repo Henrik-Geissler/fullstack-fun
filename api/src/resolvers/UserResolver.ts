@@ -5,10 +5,8 @@ import argon2 from 'argon2'
 import {
   Arg,
   Ctx,
-  Field,
   FieldResolver,
   Mutation,
-  ObjectType,
   Query,
   Resolver,
   Root,
@@ -17,38 +15,21 @@ import { getConnection } from 'typeorm'
 import { v4 } from 'uuid'
 
 import { COOKIE_NAME, FORGET_PASSWORD_PREFIX } from '../config'
-import { User } from '../entities/User'
+import User from '../entities/User'
 import { MyContext } from '../types'
+import UsernamePasswordInput from '../types/UsernamePasswordInput'
+import UserResponse from '../types/UserResponse'
 import { sendEmail } from '../utils/sendEmail'
-import { validateRegister } from '../utils/validateRegister'
-import { UsernamePasswordInput } from './UsernamePasswordInput'
-
-@ObjectType()
-class FieldError {
-  @Field()
-  field: string
-
-  @Field()
-  message: string
-}
-@ObjectType()
-class UserResponse {
-  @Field(() => [FieldError], { nullable: true })
-  errors?: FieldError[]
-
-  @Field(() => User, { nullable: true })
-  user?: User
-}
+import validateRegister from '../utils/validateRegister'
 
 @Resolver(User)
-export class UserResolver {
+class UserResolver {
   @FieldResolver(() => String)
-  email(@Root() user: User, @Ctx() { req }: MyContext) {
+  email(@Root() user: User, @Ctx() { req }: MyContext): string {
     // this is the current user and its ok to show them their own email
     if (req.session.userId === user.id) {
       return user.email
     }
-    // current user wants to see someone elses email
 
     return ''
   }
@@ -81,7 +62,7 @@ export class UserResolver {
         ],
       }
     }
-    const userIdNumber = Number.parseInt(userId)
+    const userIdNumber = Number.parseInt(userId, 10)
     const user = await User.findOne(userIdNumber)
     if (!user) {
       return {
@@ -113,7 +94,6 @@ export class UserResolver {
   ) {
     const user = await User.findOne({ where: { email } })
     if (!user) {
-      // the email is not in the db
       return true
     }
     const token = v4()
@@ -122,7 +102,7 @@ export class UserResolver {
       user.id,
       'ex',
       1_000 * 60 * 60 * 24 * 3
-    ) // 3 days
+    )
     await sendEmail(
       email,
       `<a href="http://localhost:3000/change-password/${token}">reset password</a>`
@@ -132,7 +112,7 @@ export class UserResolver {
   }
 
   @Query(() => User, { nullable: true })
-  me(@Ctx() { req }: MyContext) {
+  me(@Ctx() { req }: MyContext): Promise<User | undefined> | null {
     // you are not logged in
     if (!req.session.userId) {
       return null
@@ -167,8 +147,6 @@ export class UserResolver {
         .execute()
       user = result.raw[0]
     } catch (error) {
-      // || err.detail.includes("already exists")) {
-      // duplicate username error
       if (error.code === '23505') {
         return {
           errors: [
@@ -228,7 +206,7 @@ export class UserResolver {
   }
 
   @Mutation(() => Boolean)
-  logout(@Ctx() { req, res }: MyContext) {
+  logout(@Ctx() { req, res }: MyContext): Promise<boolean> {
     return new Promise(resolve =>
       req.session.destroy((error: any) => {
         res.clearCookie(COOKIE_NAME)
@@ -243,3 +221,5 @@ export class UserResolver {
     )
   }
 }
+
+export default UserResolver

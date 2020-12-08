@@ -1,11 +1,16 @@
 /**
  * Copyright (c) 2020, Henrik Geißler
  */
-import { UsernamePasswordInput } from '../resolvers/UsernamePasswordInput'
+import UsernamePasswordInput from '../types/UsernamePasswordInput'
 
+interface FieldError {
+  field: string
+
+  message: string
+}
 const validateRegister = (
   options: UsernamePasswordInput
-): null | Array<Record<string, string>> => {
+): null | Array<FieldError> => {
   if (!options.email.includes('@')) {
     return [
       {

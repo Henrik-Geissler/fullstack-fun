@@ -23,12 +23,12 @@ import {
   REDIS_URL,
   SESSION_SECRET,
 } from './config'
-import { Post } from './entities/Post'
-import { Updoot } from './entities/Updoot'
-import { User } from './entities/User'
-import HelloResolver from './resolvers/hello'
-import { PostResolver } from './resolvers/post'
-import { UserResolver } from './resolvers/user'
+import Post from './entities/Post'
+import Updoot from './entities/Updoot'
+import User from './entities/User'
+import HelloResolver from './resolvers/HelloResolver'
+import PostResolver from './resolvers/Post/PostResolver'
+import UserResolver from './resolvers/UserResolver'
 import createUpdootLoader from './utils/createUpdootLoader'
 import createUserLoader from './utils/createUserLoader'
 
@@ -92,9 +92,7 @@ const main = async () => {
     app,
     cors: false,
   })
-  app.listen(PORT, () => {
-    console.log(`server started on localhost:${PORT}`)
-  })
+  app.listen(PORT, () => {})
 }
 main().catch(error => {
   console.error(error)

@@ -3,8 +3,8 @@
  */
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryColumn } from 'typeorm'
 
-import { Post } from './Post'
-import { User } from './User'
+import Post from './Post'
+import User from './User'
 
 // m to n
 // many to many
@@ -13,7 +13,7 @@ import { User } from './User'
 // user -> updoot <- posts
 
 @Entity()
-export class Updoot extends BaseEntity {
+class Updoot extends BaseEntity {
   @Column({ type: 'int' })
   value: number
 
@@ -31,3 +31,5 @@ export class Updoot extends BaseEntity {
   })
   post: Post
 }
+
+export default Updoot

@@ -13,12 +13,12 @@ import {
   UpdateDateColumn,
 } from 'typeorm'
 
-import { Updoot } from './Updoot'
-import { User } from './User'
+import Updoot from './Updoot'
+import User from './User'
 
 @ObjectType()
 @Entity()
-export class Post extends BaseEntity {
+class Post extends BaseEntity {
   @Field(() => Int)
   @PrimaryGeneratedColumn()
   id!: number
@@ -58,3 +58,5 @@ export class Post extends BaseEntity {
   @UpdateDateColumn()
   updatedAt: Date
 }
+
+export default Post

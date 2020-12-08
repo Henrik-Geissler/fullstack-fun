@@ -4,7 +4,7 @@
 import { Field, InputType } from 'type-graphql'
 
 @InputType()
-export class UsernamePasswordInput {
+abstract class UsernamePasswordInput {
   @Field()
   email: string
 
@@ -14,3 +14,5 @@ export class UsernamePasswordInput {
   @Field()
   password: string
 }
+
+export default UsernamePasswordInput

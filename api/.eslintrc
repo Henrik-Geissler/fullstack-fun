@@ -109,7 +109,7 @@
     "max-depth": ["error", 4],
     "complexity": ["error", 5],
     "max-nested-callbacks": ["error", 2],
-    "max-params": ["error", 3],
+    "max-params": ["error", 4],
     "max-statements": ["error", 10],
     "optimize-regex/optimize-regex": "error",
     "toplevel/no-toplevel-var": "error",
@@ -122,7 +122,18 @@
       {
         "min": 4,
         "max": 24,
-        "exceptions": ["i", "up", "app", "Int", "key", "req", "res", "url"]
+        "exceptions": [
+          "i",
+          "id",
+          "me",
+          "up",
+          "app",
+          "Int",
+          "key",
+          "req",
+          "res",
+          "url"
+        ]
       }
     ],
     "@typescript-eslint/explicit-module-boundary-types": "error",
@@ -150,6 +161,8 @@
     "immutable/no-let": "warn",
     "immutable/no-this": "warn",
     "immutable/no-mutation": "warn",
+    "type-graphql/invalid-nullable-output-type": "off",
+    "type-graphql/invalid-nullable-input-type": "error",
 
     "eslint-comments/disable-enable-pair": "off",
     "eslint-comments/no-unused-disable": "warn",
@@ -212,7 +225,8 @@
     //"newline-per-chained-call": ["error", { "ignoreChainWithDepth": 2 }],
 
     //API ONLY
-    "no-console": "off"
+    "no-console": "off",
+    "compat/compat": "off"
   },
   "overrides": [
     {
@@ -243,8 +257,9 @@
     {
       "files": ["*/resolvers/*.ts"],
       "rules": {
-        "filenames/match-regex": ["error", "^[a-zA-Z]+$"],
-        "fp/no-class": "off"
+        "filenames/match-regex": ["error", "^[A-Z]{1}[a-zA-Z]+Resolver$"],
+        "fp/no-class": "off",
+        "class-methods-use-this": "off"
       }
     },
     // {
