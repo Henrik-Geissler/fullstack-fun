@@ -4,6 +4,7 @@
 import { Arg, Query, Resolver } from 'type-graphql'
 import { getConnection } from 'typeorm'
 
+import Stats from '../../entities/Stats'
 import Toast from '../../entities/Toast'
 import ToastInput from './types/ToastInput'
 import ToastResponse from './types/ToastResponse'
@@ -22,6 +23,20 @@ class ToastResolver {
     )
 
     return toast[0]
+  }
+
+  @Query(() => Stats)
+  async getStats(): Promise<Stats> {
+    const stats = await getConnection().query(
+      `
+    select p.*
+    from stats p
+    order by p."createdAt" DESC
+    limit 1
+    `
+    )
+
+    return stats[0]
   }
 
   @Query(() => ToastResponse)

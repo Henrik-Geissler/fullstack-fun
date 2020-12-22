@@ -8,12 +8,12 @@ export class Initial1597626060119 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `ALTER TABLE "toast" 
-DROP COLUMN "lastname" IF EXISTS;ALTER TABLE "toast" 
-DROP COLUMN "firstname" IF EXISTS;ALTER TABLE "toast" 
-ADD COLUMN "name" character varying;UPDATE "toast"
-SET "name" = "John Doe"; ALTER TABLE "toast"
-ALTER COLUMN "name" SET NULL;
+      `
+      ALTER TABLE "toast" ADD COLUMN "name" character varying;
+      UPDATE "toast" SET "name" = "firstname";
+      ALTER TABLE "toast" DROP COLUMN "lastname";
+      ALTER TABLE "toast" DROP COLUMN "firstname";
+      ALTER TABLE "toast" ALTER COLUMN "name" SET NOT NULL;
 `
     )
   }
