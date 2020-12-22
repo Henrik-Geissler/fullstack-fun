@@ -24,10 +24,12 @@ import {
   SESSION_SECRET,
 } from './config'
 import Post from './entities/Post'
+import Toast from './entities/Toast'
 import Updoot from './entities/Updoot'
 import User from './entities/User'
 import HelloResolver from './resolvers/HelloResolver'
 import PostResolver from './resolvers/Post/PostResolver'
+import ToastResolver from './resolvers/Toast/ToastResolver'
 import UserResolver from './resolvers/UserResolver'
 import createUpdootLoader from './utils/createUpdootLoader'
 import createUserLoader from './utils/createUserLoader'
@@ -35,7 +37,7 @@ import createUserLoader from './utils/createUserLoader'
 const main = async () => {
   // const conn =
   await createConnection({
-    entities: [Post, User, Updoot],
+    entities: [Post, User, Updoot, Toast],
     logging: true,
     migrations: [path.join(__dirname, './migrations/*')],
     synchronize: true,
@@ -84,7 +86,7 @@ const main = async () => {
     introspection: true,
     playground: true,
     schema: await buildSchema({
-      resolvers: [HelloResolver, PostResolver, UserResolver],
+      resolvers: [HelloResolver, PostResolver, UserResolver, ToastResolver],
       validate: false,
     }),
   })

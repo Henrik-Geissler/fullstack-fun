@@ -12,7 +12,6 @@ node_modules
 #SECRETS
 secrets
 .env
-.env.production
 
 #MISC
 .DS_Store
