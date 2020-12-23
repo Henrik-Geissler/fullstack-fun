@@ -125,7 +125,7 @@ const main = async () => {
           console.log(res)
           let nameObjects = [['notset', 0]]
           nameObjects = [['notset', 0]]
-          const actual = [0, 1, 5, 10, 50, 100]
+          const actual = [0, 1, 5, 10, 20, 50, 100]
           res.forEach((element: Toast) => {
             const actualA = actual[element.amount]
             category[element.category]++

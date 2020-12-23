@@ -25,6 +25,19 @@ class ToastResolver {
     return toast[0]
   }
 
+  @Query(() => Toast)
+  async getToastById(@Arg('id') id: number): Promise<Toast> {
+    const toast = await getConnection().query(
+      `
+    select p.*
+    from toast p
+    where p."id" = ${id}
+    limit 1
+    `
+    )
+    return toast[0]
+  }
+
   @Query(() => Stats)
   async getStats(): Promise<Stats> {
     const stats = await getConnection().query(
