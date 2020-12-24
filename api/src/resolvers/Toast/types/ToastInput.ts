@@ -8,6 +8,9 @@ abstract class ToastInput {
   @Field()
   name: string
 
+  @Field()
+  message: string
+
   @Field(() => Int)
   amount: number
 

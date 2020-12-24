@@ -25,6 +25,10 @@ class Toast extends BaseEntity {
   @Column()
   name!: string
 
+  @Field()
+  @Column()
+  message!: string
+
   @Field(() => Int)
   @Column()
   amount!: number

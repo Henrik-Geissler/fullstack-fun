@@ -5,6 +5,6 @@
   "username": "postgres",
   "password": "postgres",
   "database": "henrik2",
-  "entities": ["dist/entities/*.js"],
+  "entities": ["src/entities/*.js"],
   "migrations": ["dist/migrations/*.js"]
 }

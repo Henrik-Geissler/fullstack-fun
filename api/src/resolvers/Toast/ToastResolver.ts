@@ -68,6 +68,7 @@ class ToastResolver {
           amount: options.amount,
           category: options.category,
           name: options.name,
+          message: options.message,
         })
         .returning('*')
         .execute()
